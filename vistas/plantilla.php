@@ -1,8 +1,10 @@
 <?php
 $blog = ControladorBlog::ctrMostrarBlog();
 $categorias = ControladorBlog::ctrMostrarCategorias();
-$articulos = ControladorBlog::ctrMostrarConInnerJoin(5);
+$articulos = ControladorBlog::ctrMostrarConInnerJoin(0,3);
 $totalArticulo = ControladorBlog::ctrMostrarTotalArticulos();
+$totalPaginas = ceil(count($totalArticulo)/3);
+//echo '<pre>'; print_r($totalPaginas); echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -156,24 +158,35 @@ $totalArticulo = ControladorBlog::ctrMostrarTotalArticulos();
 	$validarRuta = "";
 
 	if(isset($_GET["pagina"])){
-		foreach($categorias as $key => $value){
-			
-			if($_GET["pagina"] == $value["ruta_categoria"]){
+		if(is_numeric($_GET["pagina"]) && $_GET["pagina"] <= $totalPaginas){
 
-				$validarRuta = "categorias";
-				
+			$desde = ($_GET["pagina"] -1) * 3;
+
+			$cantidad = 3;
+			
+			$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde,$cantidad);
+
+		}else{
+			foreach($categorias as $key => $value){
+				if($_GET["pagina"] == $value["ruta_categoria"]){
+	
+					$validarRuta = "categorias";	
+				}		
 			}
-				
 		}
+		
 		/*=============================================
 			Validar las rutas
 		=============================================*/	
 		if($validarRuta == "categorias"){
 
 				include "paginas/categorias.php";
-			
 
-			}else{
+			}else if(is_numeric($_GET["pagina"])){
+
+				include "paginas/inicio.php";
+			}
+			else{
 				include "paginas/404.php";
 
 			}
@@ -193,7 +206,7 @@ $totalArticulo = ControladorBlog::ctrMostrarTotalArticulos();
 
 
 ?>
-
+<input type="hidden" id="rutaActual" value="<?php echo $blog["dominio"]; ?>">
 <script src="vistas/js/script.js"></script>
 
 </body>
