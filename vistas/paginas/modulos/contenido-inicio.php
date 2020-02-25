@@ -1,8 +1,8 @@
 
 <?php
-if(isset($_GET["pagina"]) && is_numeric($_GET["pagina"])){
+if(isset($rutas[0]) && is_numeric($rutas[0])){
 
-	$paginaActual = $_GET["pagina"];
+	$paginaActual = $rutas[0];
 }else {
 	$paginaActual = 1;
 }
@@ -28,19 +28,19 @@ CONTENIDO INICIO
 					
 					<div class="col-12 col-lg-5" >
 
-						<a href="<?php echo $value["ruta_articulo"]; ?>"><h3 class="d-block d-lg-none py-3"><?php echo $value["titulo_articulo"]; ?></h3></a>
+						<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"]; ?>"><h3 class="d-block d-lg-none py-3"><?php echo $value["titulo_articulo"]; ?></h3></a>
 			
-						<a href="<?php echo $value["ruta_articulo"] ?>"><img src="<?php echo $value["portada_articulo"] ?>" alt="<?php echo $value["titulo_articulo"]; ?>" class="img-fluid" width="100%"></a>
+						<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"]; ?>"><img src= "<?php echo $blog["dominio"];?><?php echo $value["portada_articulo"] ?>" alt="<?php echo $value["titulo_articulo"]; ?>" class="img-fluid" width="100%"></a>
 
 					</div>
 
 					<div class="col-12 col-lg-7 introArticulo" >
 						
-						<a href="<?php echo $value["ruta_articulo"]; ?>"><h3 class="d-none d-lg-block"><?php echo $value["titulo_articulo"]; ?></h3></a>
+						<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"]; ?>"><h3 class="d-none d-lg-block"><?php echo $value["titulo_articulo"]; ?></h3></a>
 						
 						<p class="my-1 my-lg-4"><?php echo $value["descripcion_articulo"]; ?></p>
 
-						<a href="<?php echo $value["ruta_articulo"]; ?>" class="float-right" id="parrafo">Leer Más</a>
+						<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"]; ?>" class="float-right" id="parrafo">Leer Más</a>
 
 						<div class="fecha"><?php echo $value["fecha_articulo"]; ?></div>
 
@@ -52,7 +52,7 @@ CONTENIDO INICIO
 			<?php endforeach ?>
 
 	<div class="container d-none d-md-block">
-		<ul class="pagination justify-content-center" totalPaginas="<?php echo $totalPaginas; ?>" paginaActual = "<?php echo $paginaActual; ?> "></ul>
+		<ul class="pagination justify-content-center" totalPaginas="<?php echo $totalPaginas; ?>" paginaActual = "<?php echo $paginaActual; ?>" rutaPagina = ""</ul>
 	</div>
 	</div>
 			<!-- COLUMNA DERECHA -->
@@ -79,7 +79,7 @@ CONTENIDO INICIO
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo10.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo10.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -103,7 +103,7 @@ CONTENIDO INICIO
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo09.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo09.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -127,7 +127,7 @@ CONTENIDO INICIO
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo08.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo08.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -148,9 +148,6 @@ CONTENIDO INICIO
 
 				</div>
 
-				<!-- PUBLICIDAD -->
-
-	
 
 		</div>
 

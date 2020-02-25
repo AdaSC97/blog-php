@@ -1,8 +1,8 @@
 <?php
 $blog = ControladorBlog::ctrMostrarBlog();
 $categorias = ControladorBlog::ctrMostrarCategorias();
-$articulos = ControladorBlog::ctrMostrarConInnerJoin(0,3);
-$totalArticulo = ControladorBlog::ctrMostrarTotalArticulos();
+$articulos = ControladorBlog::ctrMostrarConInnerJoin(0,3, null, null);
+$totalArticulo = ControladorBlog::ctrMostrarTotalArticulos(null, null);
 $totalPaginas = ceil(count($totalArticulo)/3);
 //echo '<pre>'; print_r($totalPaginas); echo '</pre>';
 ?>
@@ -18,9 +18,12 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 	$validarRuta = "";
 		if(isset($_GET["pagina"])){
+
+			$rutas = explode("/", $_GET["pagina"]);
+
 			foreach($categorias as $key => $value){
 	
-				if($_GET["pagina"] == $value["ruta_categoria"]){
+				if(!is_numeric($rutas[0]) && $rutas[0] == $value["ruta_categoria"]){
 
 					$validarRuta = "categorias";
 
@@ -28,14 +31,34 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 				}
 			}
+			if (isset($rutas[1])){
+				foreach($totalArticulo as $key => $value){
+	
+					if(!is_numeric($rutas[1]) && $rutas[1] == $value["ruta_articulo"]){
+	
+						$validarRuta = "articulos";
+	
+					break;
+	
+					}
+				}
+			}
+			
 			if($validarRuta == "categorias"){
 
-				echo
+				/*echo
 					'<title>'.$blog["titulo"].' | '. $value["descripcion_categoria"].'</title>
 					<meta name="title" content="'.$value["titulo_categoria"].'>">
 					<meta name="descripcion" content="'.$value["descripcion_categoria"].'">
 					';
 
+					echo '<meta property="og:site_name" content="'.$value["titulo_categoria"].'">
+								<meta property="og:title" content="'.$value["titulo_categoria"].'">
+								<meta property="og:description" content="'.$value["descripcion_categoria"].'">
+								<meta property="og:type" content="Type">
+								<meta property="og:image" content="'.$blog["dominio"].$value["img_categoria"].'">
+								<meta property="og:url" content="'.$blog["dominio"].$value["ruta_categoria"].'">';
+*/
 					$palabras_clave = json_decode($blog["palabras_clave"], true);
 						$p_claves = "";
 						foreach($palabras_clave as $key => $value){
@@ -45,24 +68,61 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 						$p_claves = substr($p_claves, 0, -1);
 
 						echo '<meta name="keywords" content="'.$p_claves.'">';
+
+						
 	
-				}else{
-				echo
-					'<title>'.$blog["titulo"].'</title>
-					<meta name="title" content="'.$blog["titulo"].'>">
-					<meta name="descripcion" content="'. $blog["descripcion"].'">
-					';
+				}else if($validarRuta == "articulos"){
 
-					$palabras_clave = json_decode($blog["palabras_clave"], true);
-						$p_claves = "";
-						foreach($palabras_clave as $key => $value){
+					echo
+						'<title>'.$blog["titulo"].' | '. $value["titulo_articulo"].'</title>
+						<meta name="title" content="'.$value["titulo_articulo"].'">
+						<meta name="descripcion" content="'.$value["descripcion_articulo"].'">
+						';
 
-							$p_claves .= $value.",";
-						}
-						$p_claves = substr($p_claves, 0, -1);
+						echo '<meta property="og:site_name" content="'.$value["titulo_articulo"].'">
+							<meta property="og:title" content="'.$value["titulo_articulo"].'">
+							<meta property="og:description" content="'.$value["descripcion_articulo"].'">
+							<meta property="og:type" content="Type">
+							<meta property="og:image" content="'.$blog["dominio"].$value["portada_articulo"].'">
+							<meta property="og:url" content="'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';	
+	
+						$palabras_clave = json_decode($value["p_claves_articulo"], true);
+							$p_claves = "";
+							foreach($palabras_clave as $key => $value){
+	
+								$p_claves .= $value.",";
+							}
+							$p_claves = substr($p_claves, 0, -1);
+	
+							echo '<meta name="keywords" content="'.$p_claves.'">';
 
-						echo '<meta name="keywords" content="'.$p_claves.'">';
-				}
+							echo '<meta property="og:site_name" content="'.$blog["titulo"].'">
+							<meta property="og:title" content="'.$blog["titulo"].'">
+							<meta property="og:description" content="'.$blog["descripcion"].'">
+							<meta property="og:type" content="Type">
+							<meta property="og:image" content="'.$blog["dominio"].$blog["portada"].'">
+							<meta property="og:url" content="'.$blog["dominio"].'">';
+
+							
+		
+					}
+				else{
+					echo
+						'<title>'.$blog["titulo"].'</title>
+						<meta name="title" content="'.$blog["titulo"].'>">
+						<meta name="descripcion" content="'. $blog["descripcion"].'">
+						';
+
+						$palabras_clave = json_decode($blog["palabras_clave"], true);
+							$p_claves = "";
+							foreach($palabras_clave as $key => $value){
+
+								$p_claves .= $value.",";
+							}
+							$p_claves = substr($p_claves, 0, -1);
+
+							echo '<meta name="keywords" content="'.$p_claves.'">';
+					}
 		}else{
 	
 			echo
@@ -80,8 +140,15 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 					$p_claves = substr($p_claves, 0, -1);
 
 					echo '<meta name="keywords" content="'.$p_claves.'">';
-				//break;
 
+					echo '<meta property="og:site_name" content="'.$blog["titulo"].'">
+					<meta property="og:title" content="'.$blog["titulo"].'">
+					<meta property="og:description" content="'.$blog["descripcion"].'">
+					<meta property="og:type" content="Type">
+					<meta property="og:image" content="'.$blog["dominio"].$blog["portada"].'">
+					<meta property="og:url" content="'.$blog["dominio"].'">';
+
+					
 				
 			}
 
@@ -89,7 +156,7 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 	
 
 	
-	<link rel="icon" href="vistas/img/icono.png">
+	<link rel="icon" href="<?php echo $blog["dominio"];?>vistas/img/icono.png">
 
 	<!--=====================================
 	PLUGINS DE CSS
@@ -104,9 +171,9 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 	
 	<!-- JdSlider -->
 	<!-- https://www.jqueryscript.net/slider/Carousel-Slideshow-jdSlider.html -->
-	<link rel="stylesheet" href="vistas/css/plugins/jquery.jdSlider.css">
+	<link rel="stylesheet" href="<?php echo $blog["dominio"];?>vistas/css/plugins/jquery.jdSlider.css">
 
-	<link rel="stylesheet" href="vistas/css/style.css">
+	<link rel="stylesheet" href="<?php echo $blog["dominio"];?>vistas/css/style.css">
 
 	
 	<!--=====================================
@@ -124,17 +191,19 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 	<!-- JdSlider -->
 	<!-- https://www.jqueryscript.net/slider/Carousel-Slideshow-jdSlider.html -->
-	<script src="vistas/js/plugins/jquery.jdSlider-latest.js"></script>
+	<script src="<?php echo $blog["dominio"];?>vistas/js/plugins/jquery.jdSlider-latest.js"></script>
 	
 	<!-- pagination -->
 	<!-- http://josecebe.github.io/twbs-pagination/ -->
-	<script src="vistas/js/plugins/pagination.min.js"></script>
+	<script src="<?php echo $blog["dominio"];?>vistas/js/plugins/pagination.min.js"></script>
+
+	<script src="<?php echo $blog["dominio"]; ?>vistas/js/plugins/shape.share.js"></script>
 
 	<!-- scrollup -->
 	<!-- https://markgoodyear.com/labs/scrollup/ -->
 	<!-- https://easings.net/es# -->
-	<script src="vistas/js/plugins/scrollUP.js"></script>
-	<script src="vistas/js/plugins/jquery.easing.js"></script>
+	<script src="<?php echo $blog["dominio"];?>vistas/js/plugins/scrollUP.js"></script>
+	<script src="<?php echo $blog["dominio"];?>vistas/js/plugins/jquery.easing.js"></script>
 
 </head>
 
@@ -158,23 +227,58 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 	$validarRuta = "";
 
 	if(isset($_GET["pagina"])){
-		if(is_numeric($_GET["pagina"]) && $_GET["pagina"] <= $totalPaginas){
 
-			$desde = ($_GET["pagina"] -1) * 3;
+		$rutas = explode("/", $_GET["pagina"]);
+
+		//echo '<pre class=bg-white>'; print_r($rutas); echo '</pre>';
+
+		if(is_numeric($rutas[0])){
+
+			$desde = ($rutas[0] -1) * 6;
 
 			$cantidad = 3;
 			
-			$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde,$cantidad);
+			$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde,$cantidad, null, null);
 
 		}else{
 			foreach($categorias as $key => $value){
-				if($_GET["pagina"] == $value["ruta_categoria"]){
+
+				if($rutas[0] == $value["ruta_categoria"]){
 	
-					$validarRuta = "categorias";	
+					$validarRuta = "categorias";
+					
+				break;
 				}		
 			}
 		}
+
+		/*=============================================
+			Rutas de artículos o l apaginación de las categorías
+		=============================================*/	
+		if(isset($rutas[1])){
+
+			if(is_numeric($rutas[0])){
+
+				$desde = ($rutas[0] -1) * 6;
+	
+				$cantidad = 3;
+				
+				$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde,$cantidad, null, null);
+	
+			}else{
+				foreach($totalArticulo as $key => $value){
+	
+					if($rutas[1] == $value["ruta_articulo"]){
 		
+						$validarRuta = "articulos";
+						
+					break;
+					}		
+				}
+			}
+
+
+		}
 		/*=============================================
 			Validar las rutas
 		=============================================*/	
@@ -182,7 +286,13 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 				include "paginas/categorias.php";
 
-			}else if(is_numeric($_GET["pagina"])){
+			}else if($validarRuta == "articulos"){
+
+				include "paginas/articulos.php";
+			}else if(is_numeric($rutas[0]) && $rutas[0] <= $totalPaginas){
+
+				include "paginas/inicio.php";
+			}elseif(isset($rutas[1]) && is_numeric($rutas[1])){
 
 				include "paginas/inicio.php";
 			}
@@ -207,7 +317,7 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 ?>
 <input type="hidden" id="rutaActual" value="<?php echo $blog["dominio"]; ?>">
-<script src="vistas/js/script.js"></script>
+<script src="<?php echo $blog["dominio"];?>vistas/js/script.js"></script>
 
 </body>
 </html>

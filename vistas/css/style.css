@@ -5,6 +5,10 @@ ESCRITORIO (XL revisamos en 1366px en adelante)
 *{
 	font-family: 'Pacifico', cursive;
 }
+#botons{
+	background: #e6d9a1;
+	color: black;
+}
 
 #span{
 	width:120px;
@@ -26,6 +30,11 @@ h4 {
 	color: #7196c0;
 	font-weight: normal;
 
+
+  }
+  #h3{
+	color: #62ca00;
+	font-weight: normal;
 
   }
 #parrafo{
@@ -490,6 +499,7 @@ TABLET VERTICAL (MD revisamos en 768px)
 
 	.tituloArticulo{
 		font-size:20px;
+		color: #7196c0;
 	}
 	
 }

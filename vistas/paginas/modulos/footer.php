@@ -20,13 +20,13 @@ FOOTER
 
 							<div class="d-flex flex-column columna1">
 							
-								<figure class="p-2 m-0 photo1" vinculo="<?php echo $categorias[1]["ruta_categoria"] ?>" style="background:url(<?php echo $categorias[1]["img_categoria"] ?>)">
+								<figure class="p-2 m-0 photo1" vinculo="<?php echo $categorias[1]["ruta_categoria"] ?>" style="background:url(<?php echo $blog["dominio"];?><?php echo $categorias[1]["img_categoria"] ?>)">
 									
 									<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[1]["descripcion_categoria"] ?></p>
 
 								</figure>
 
-								<figure class="p-2 m-0 photo2" vinculo="<?php echo $categorias[0]["ruta_categoria"] ?>" style="background:url(<?php echo $categorias[0]["img_categoria"] ?>)">
+								<figure class="p-2 m-0 photo2" vinculo="<?php echo $categorias[0]["ruta_categoria"] ?>" style="background:url(<?php echo $blog["dominio"];?><?php echo $categorias[0]["img_categoria"] ?>)">
 									
 									<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[0]["descripcion_categoria"] ?></p>
 
@@ -38,23 +38,23 @@ FOOTER
 
 								<div class="d-block d-md-flex">
 
-									<figure class="p-2 m-0 flex-fill photo3" vinculo="<?php echo $categorias[3]["ruta_categoria"] ?>" style="background:url(<?php echo $categorias[3]["img_categoria"] ?>)">
+									<figure class="p-2 m-0 flex-fill photo3" vinculo="<?php echo $categorias[3]["ruta_categoria"] ?>" style="background:url(<?php echo $blog["dominio"];?><?php echo $categorias[3]["img_categoria"] ?>)">
 
 										<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[3]["descripcion_categoria"] ?></p>
 										
 									</figure>
 
-									<figure class="p-2 m-0 flex-fill photo4" vinculo="<?php echo $categorias[5]["ruta_categoria"] ?>" style="background:url(<?php echo $categorias[5]["img_categoria"] ?>)">
+									<figure class="p-2 m-0 flex-fill photo4" vinculo="<?php echo $categorias[4]["ruta_categoria"] ?>" style="background:url(<?php echo $blog["dominio"];?><?php echo $categorias[4]["img_categoria"] ?>)">
 										
-										<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[5]["descripcion_categoria"] ?></p>
+										<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[4]["descripcion_categoria"] ?></p>
 
 									</figure>
 
 								</div>
 
-								<figure class="p-2 m-0 photo5" vinculo="<?php echo $categorias[2]["ruta_categoria"] ?>" style="background:url(<?php echo $categorias[2]["img_categoria"] ?>)">
+								<figure class="p-2 m-0 photo5" vinculo="<?php echo $categorias[5]["ruta_categoria"] ?>" style="background:url(<?php echo $blog["dominio"];?><?php echo $categorias[5]["img_categoria"] ?>)">
 
-									<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[2]["descripcion_categoria"] ?></p>
+									<p class="text-uppercase p-1 p-md-2 p-xl-1 small"><?php echo $categorias[5]["descripcion_categoria"] ?></p>
 									
 								</figure>
 
@@ -93,6 +93,10 @@ FOOTER
 					<ul class="d-flex justify-content-left p-0">
 						
 					<ul class="d-flex justify-content-end pt-3 mt-1">
+
+					<div class="d-none d-md-block col-md-2 redes">
+				
+				<ul class="d-flex justify-content-end pt-3 mt-1">
 				<?php
 				$redes_sociales = json_decode($blog["redes_sociales"], true);
 				
@@ -101,12 +105,14 @@ FOOTER
 					echo 
 					'<li>
 						<a href="'.$value["url"].'" target="_blank">
-						<img src="'.$value["icono"].'" width="40" heigth="40" style="margin: 0 5px 0 0">
+						<img src= "'.$blog["dominio"].''.$value["icono"].'" width="40" heigth="40" style="margin: 0 5px 0 0">
 						</a>
 					</li>';
 
 				}
 				?>
+			</div>
+			
 					</ul>
 
 				</div>

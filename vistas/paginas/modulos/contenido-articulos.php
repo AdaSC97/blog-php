@@ -1,3 +1,11 @@
+<?php
+if(isset($rutas[1])){
+	$articulo = ControladorBlog::ctrMostrarConInnerJoin(0,1, "ruta_articulo", $rutas[1]);
+	$totalArticulo = ControladorBlog::ctrMostrarTotalArticulos("id_cat", $articulo[0]["id_cat"]);
+	//echo '<pre>'; print_r($articulo); echo '</pre>';
+}
+?>
+
 <!--=====================================
 CONTENIDO ARTÍCULO
 ======================================-->
@@ -8,7 +16,7 @@ CONTENIDO ARTÍCULO
 
 		<!-- BREADCRUMB -->
 
-		<a href="categorias.html">
+		<a href="<?php echo $articulo[0]["ruta_categoria"]; ?>">
 			
 			<button class="d-block d-sm-none btn btn-info btn-sm mb-2">
 			
@@ -20,11 +28,14 @@ CONTENIDO ARTÍCULO
 
 		<ul class="breadcrumb bg-white p-0 mb-2 mb-md-4 breadArticulo">
 
-			<li class="breadcrumb-item inicio"><a href="index.html">Inicio</a></li>
+			<li class="breadcrumb-item inicio"><a href="<?php echo $blog["dominio"]; ?>">Inicio</a></li>
 
-			<li class="breadcrumb-item"><a href="categorias.html">Mi viaje por Suramérica</a></li>
+			<li class="breadcrumb-item">
+				<a href="<?php echo  $blog["dominio"].$articulo[0]["ruta_categoria"]; ?>">
+				<?php echo $articulo[0]["descripcion_categoria"]; ?></a>
+			</li>
 
-			<li class="breadcrumb-item active">Type something here</li>
+			<li class="breadcrumb-item active"><?php echo $articulo[0]["titulo_categoria"]; ?></li>
 
 		</ul>
 		
@@ -40,21 +51,13 @@ CONTENIDO ARTÍCULO
 
 					<div class="d-flex">
 					
-						<div class="fechaArticulo">30.09.2018</div>
+						<div class="fechaArticulo"><?php echo $articulo[0]["fecha_articulo"];?></div>
 
-						<h3 class="tituloArticulo text-right text-muted pl-3 pt-lg-2">Type something here lorem</h3>
+						<h3 id="h3" class="tituloArticulo text-right text-muted pl-3 pt-lg-2"><?php echo $articulo[0]["titulo_articulo"];?></h3>
 
 					</div>
 
-					<img src="vistas/img/articulo.png" alt="Lorem ipsum dolor sit amet" class="img-fluid my-lg-3">
-
-					<p class="textoArticulo my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias aliquid laboriosam suscipit magnam distinctio nisi eaque expedita beatae neque nobis dolores corporis laudantium quo voluptatum facilis, aliquam sed deleniti delectus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae asperiores laborum facere est eos in optio suscipit, consequatur animi placeat adipisci, sunt. Unde distinctio odit, facilis quos eveniet et culpa. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, minus distinctio assumenda porro fugit voluptates officiis atque? Voluptas, soluta eius inventore aspernatur quasi, earum iste maiores porro ipsam, expedita minus.</p>
-
-					<!-- PUBLICIDAD -->
-
-					<img src="vistas/img/ad04.png" class="img-fluid my-3" width="100%">
-
-					<p class="textoArticulo my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias aliquid laboriosam suscipit magnam distinctio nisi eaque expedita beatae neque nobis dolores corporis laudantium quo voluptatum facilis, aliquam sed deleniti delectus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae asperiores laborum facere est eos in optio suscipit, consequatur animi placeat adipisci, sunt. Unde distinctio odit, facilis quos eveniet et culpa. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, minus distinctio assumenda porro fugit voluptates officiis atque? Voluptas, soluta eius inventore aspernatur quasi, earum iste maiores porro ipsam, expedita minus.</p>
+					<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo.png" alt="Lorem ipsum dolor sit amet" class="img-fluid my-lg-3">
 
 					<p class="textoArticulo my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias aliquid laboriosam suscipit magnam distinctio nisi eaque expedita beatae neque nobis dolores corporis laudantium quo voluptatum facilis, aliquam sed deleniti delectus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae asperiores laborum facere est eos in optio suscipit, consequatur animi placeat adipisci, sunt. Unde distinctio odit, facilis quos eveniet et culpa. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, minus distinctio assumenda porro fugit voluptates officiis atque? Voluptas, soluta eius inventore aspernatur quasi, earum iste maiores porro ipsam, expedita minus.</p>
 
@@ -70,26 +73,17 @@ CONTENIDO ARTÍCULO
 						
 						<div class="btn-group">
 							
-							<button type="button" class="btn border-0 text-white" style="background: #1475E0">
-								
-								<span class="fab fa-facebook pr-1"></span>
-
-								Facebook
-
-							</button>
+							<a class="social-share"  data-share="facebook">
+							<img src= "<?php echo $blog["dominio"];?>vistas/img/fb.png" width="40" heigth="40" style="margin: 0 5px 0 0">
+							</a>
 
 						</div>
 
 						<div class="btn-group">
+							<a class="social-share" data-share="twitter">
+							<img src= "<?php echo $blog["dominio"];?>vistas/img/t.png" width="40" heigth="40" style="margin: 0 5px 0 0">
+							</a>
 							
-							<button type="button" class="btn border-0 text-white" style="background: #00A6FF">
-								
-								<span class="fab fa-twitter pr-1"></span>
-
-								Twitter
-
-							</button>
-
 						</div>
 
 					</div>
@@ -101,39 +95,41 @@ CONTENIDO ARTÍCULO
 					<!-- ETIQUETAS -->
 
 					<div>
+					<h4>Etiquetas</h4>
 
-						<h4>Etiquetas</h4>
-	
-							<a href="#suramerica" class="btn btn-secondary btn-sm m-1">suramerica</a> 		
-						
-							<a href="#colombia" class="btn btn-secondary btn-sm m-1">colombia</a> 							
-						
-							<a href="#peru" class="btn btn-secondary btn-sm m-1">peru</a> 							
-						
-							<a href="#argentina" class="btn btn-secondary btn-sm m-1">argentina</a> 							
-						
-							<a href="#chile" class="btn btn-secondary btn-sm m-1">chile</a> 							
-						
-							<a href="#brasil" class="btn btn-secondary btn-sm m-1">brasil</a> 							
-						
-							<a href="#ecuador" class="btn btn-secondary btn-sm m-1">ecuador</a> 							
-						
-							<a href="#venezuela" class="btn btn-secondary btn-sm m-1">venezuela</a> 
-							
-							<a href="#paraguay" class="btn btn-secondary btn-sm m-1">paraguay</a> 
-							
-							<a href="#uruguay" class="btn btn-secondary btn-sm m-1">uruguay</a> 
-						
-							<a href="#bolivia" class="btn btn-secondary btn-sm m-1">bolivia</a> 
-																		
+						<?php 
+							$tags = json_decode($articulos[0]["p_claves_categoria"], true);
+						?>
+						<?php foreach($tags as $key => $value): ?>
+
+							<a href="#<?php echo $value; ?>" class="btn btn-sm m-2" id="botons"><?php echo $value; ?></a>
+
+						<?php endforeach ?>			
+										
 					</div>
+					<?php
+						//echo '<pre>'; print_r(count($totalArticulo)); echo '</pre>';
+						foreach ($totalArticulo as $key => $value) {
+							if ($articulo[0]["id_articulo"] == $value["id_articulo"] ) {
+								$posicion = $key;
+								//echo '<pre>'; print_r($posicion); echo '</pre>';
+							}
+						}
+					 ?>
 
 				 	<div class="d-md-flex justify-content-between my-3 d-none">
-					    
-					    <a href="articulos.html">Leer artículo anterior</a>
-					    
-					    <a href="articulos.html">Leer artículo siguiente</a>
 
+					 <?php if (($posicion - 1) > 0):?>
+					    
+					    <a href="<?php echo $blog["dominio"].$articulo[0]["ruta_categoria"]."/".$totalArticulo[($posicion - 1)]["ruta_articulo"]?>">Leer artículo anterior</a>
+
+					<?php endif ?>
+
+					<?php if (($posicion + 1) < count($totalArticulo)):?>
+
+					    <a href="<?php echo $blog["dominio"].$articulo[0]["ruta_categoria"]."/".$totalArticulo[($posicion + 1)]["ruta_articulo"]?>">Leer artículo siguiente</a>
+
+					<?php endif ?>
 				  	</div>
 
 				  	<!-- DESLIZADOR DE ARTÍCULOS -->
@@ -143,62 +139,25 @@ CONTENIDO ARTÍCULO
 						<div class="slide-inner">
 							
 							<ul class="slide-area">
+
+							<?php foreach($totalArticulo as $key => $value): ?>
 								
 								<li class="px-3">
-									
-									<a href="articulos.html" class="text-secondary">
 
-										<img src="vistas/img/articulo01.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+									<a href="<?php echo $blog["dominio"].$articulo[0]["ruta_categoria"]."/".$value["ruta_articulo"]; ?>" class="text-secondary">
 
-										<h6 class="py-2">Type something here</h6>
+										<img src= "<?php echo $blog["dominio"].$value["portada_articulo"] ?>" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
-									</a>
-
-									 <p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem quibusdam sint porro...</p>
-
-								</li>
-
-								<li class="px-3">
-									
-									<a href="articulos.html" class="text-secondary">
-
-										<img src="vistas/img/articulo02.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-									
-										<h6 class="py-2">Type something here</h6>
+										<h6 class="py-2"><?php echo $value["titulo_articulo"]; ?></h6>
 
 									</a>
 
-									<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem quibusdam sint porro...</p>
+									 <p class="small"><?php echo substr($value["descripcion_articulo"], 0, -190).". . ."; ?></p>
 
 								</li>
 
-								<li class="px-3">
-									
-									<a href="articulos.html" class="text-secondary">
+							<?php endforeach ?>
 
-										<img src="vistas/img/articulo03.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-									
-										<h6 class="py-2">Type something here</h6>
-
-									</a>
-
-									<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem quibusdam sint porro...</p>
-
-								</li>
-
-								<li class="px-3">
-									
-									<a href="articulos.html" class="text-secondary">
-
-										<img src="vistas/img/articulo04.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-									
-										<h6 class="py-2">Type something here</h6>
-
-									</a>
-
-									<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem quibusdam sint porro...</p>
-
-								</li>
 
 							</ul>
 
@@ -234,7 +193,7 @@ CONTENIDO ARTÍCULO
 						
 						<div class="col-3 col-sm-4 col-lg-2 p-2">
 						
-							<img src="vistas/img/user01.jpg" class="img-thumbnail">	
+							<img src= "<?php echo $blog["dominio"];?>vistas/img/user01.jpg" class="img-thumbnail">	
 
 						</div>
 
@@ -256,7 +215,7 @@ CONTENIDO ARTÍCULO
 
 						<div class="col-3 col-sm-4 col-lg-2 p-2">
 						
-							<img src="vistas/img/user02.jpg" class="img-thumbnail">	
+							<img src= "<?php echo $blog["dominio"];?>vistas/img/user02.jpg" class="img-thumbnail">	
 
 						</div>
 
@@ -286,7 +245,7 @@ CONTENIDO ARTÍCULO
 
 							<div class="d-none d-md-block col-md-4 col-lg-3">
 								
-								<img src="vistas/img/subirFoto.png" class="img-fluid mt-md-3 mt-xl-2">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/subirFoto.png" class="img-fluid mt-md-3 mt-xl-2">
 
 							</div>
 
@@ -298,9 +257,6 @@ CONTENIDO ARTÍCULO
 
 					</form>
 
-					<!-- PUBLICIDAD -->
-
-					<img src="vistas/img/ad01.jpg" class="img-fluid my-3 d-block d-md-none" width="100%">
 
 
 				</div>
@@ -323,7 +279,7 @@ CONTENIDO ARTÍCULO
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo05.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo05.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -347,7 +303,7 @@ CONTENIDO ARTÍCULO
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo06.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo06.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -371,7 +327,7 @@ CONTENIDO ARTÍCULO
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo07.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo07.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -391,26 +347,6 @@ CONTENIDO ARTÍCULO
 
 
 				</div>
-
-				<!-- PUBLICIDAD -->
-
-				<div class="mb-4">
-					
-					<img src="vistas/img/ad03.png" class="img-fluid">
-
-				</div>
-
-				<div class="my-4">
-					
-					<img src="vistas/img/ad02.jpg" class="img-fluid">
-
-				</div>	
-
-				<div class="my-4">
-					
-					<img src="vistas/img/ad06.png" class="img-fluid">
-
-				</div>	
 				
 			</div>
 

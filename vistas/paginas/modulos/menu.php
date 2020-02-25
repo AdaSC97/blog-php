@@ -11,7 +11,7 @@ MENU
 	foreach($categorias as $key => $value):
 	?>
 	<li class="nav-item">
-		<a class="nav-link" text-white href="<?php echo $value["ruta_categoria"] ?>">
+		<a class="nav-link" text-white href="<?php echo $blog["dominio"].$value["ruta_categoria"] ?>">
 		<?php echo $value["descripcion_categoria"] ?>
 		</a>
 	</li>

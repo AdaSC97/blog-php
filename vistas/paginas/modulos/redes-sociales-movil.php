@@ -14,7 +14,7 @@ REDES SOCIALES PARA MÓVIL
 					echo 
 					'<li>
 						<a href="'.$value["url"].'" target="_blank">
-						<img src="'.$value["icono"].'" width="40" heigth="40" style="margin: 0 5px 0 0">
+						<img src= "'.$blog["dominio"].''.$value["icono"].'" width="40" heigth="40" style="margin: 0 5px 0 0">
 						</a>
 					</li>';
 

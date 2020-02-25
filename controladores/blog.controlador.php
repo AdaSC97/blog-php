@@ -21,21 +21,21 @@ class ControladorBlog{
     }
     //Mostrar artículos y categorías con Inner Join
 
-    static public function  ctrMostrarConInnerJoin($desde, $cantidad){
+    static public function  ctrMostrarConInnerJoin($desde, $cantidad, $item, $valor){
 
         $tabla1 = "categorias";
         $tabla2 = "articulos";
 
-        $respuesta = ModeloBlog::mdlMostrarConInnerJoin($tabla1,$tabla2, $desde, $cantidad);
+        $respuesta = ModeloBlog::mdlMostrarConInnerJoin($tabla1,$tabla2, $desde, $cantidad, $item, $valor);
 
         return $respuesta;
 
     }
-    static public function ctrMostrarTotalArticulos(){
+    static public function ctrMostrarTotalArticulos($item, $valor){
 
         $tabla = "articulos";
 
-        $respuesta = ModeloBlog::mdlMostrarTotalArticulos($tabla);
+        $respuesta = ModeloBlog::mdlMostrarTotalArticulos($tabla, $item, $valor);
 
         return $respuesta;
         
