@@ -66,7 +66,7 @@ CABECERA
 						
 						<span class="input-group-text bg-primary border-0" style="cursor:pointer">
 							
-							<i class="fas fa-search"></i>
+							<i class="fas fa-search buscar"></i>
 
 						</span>
 

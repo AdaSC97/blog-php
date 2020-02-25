@@ -2,8 +2,21 @@
 if(isset($rutas[1])){
 	$articulo = ControladorBlog::ctrMostrarConInnerJoin(0,1, "ruta_articulo", $rutas[1]);
 	$totalArticulo = ControladorBlog::ctrMostrarTotalArticulos("id_cat", $articulo[0]["id_cat"]);
-	//echo '<pre>'; print_r($articulo); echo '</pre>';
+	$opiniones = ControladorBlog::ctrMostrarOpiniones("id_art", $articulo[0]["id_articulo"]);
+	//echo '<pre class="bg-white">'; print_r($opiniones); echo '</pre>';
 }
+
+function limitarForeach($array, $limite){
+
+	foreach ($array as $key => $value) {
+		
+		if(!$limite--)	break;
+
+		yield $key => $value;
+	}
+
+}
+
 ?>
 
 <!--=====================================
@@ -185,47 +198,83 @@ CONTENIDO ARTÍCULO
 
 				  	<!-- BLOQUE DE OPINIONES -->
 
-				  	<h3 style="color:#8e4876">Opiniones</h3>
+				  	<h3 style="color:#E4AF17">Opiniones</h3>
 
-				  	<hr style="border: 1px solid #79FF39">
+				  	<hr style="border: 1px solid #17CEE4">
 					
 					<div class="row opiniones">
+
+					<?php if (count($opiniones) != 0): ?>
+
+					<?php foreach ($opiniones as $key => $value): ?>
+
+						<?php if ($value["aprobacion_opinion"] == 1): ?>
 						
-						<div class="col-3 col-sm-4 col-lg-2 p-2">
+							<div class="col-3 col-sm-4 col-lg-2 p-2">
 						
-							<img src= "<?php echo $blog["dominio"];?>vistas/img/user01.jpg" class="img-thumbnail">	
+								<img src="<?php echo $blog["dominio"].$value["foto_opinion"];?>" class="img-thumbnail">	
 
-						</div>
+							</div>
 
-						<div class="col-9 col-sm-8 col-lg-10 p-2 text-muted">
-							
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto beatae, aut sint provident dolorem minus recusandae facere, ipsum magnam, nostrum enim. Error quasi quod ab consectetur explicabo consequuntur obcaecati suscipit!</p>
+							<div class="col-9 col-sm-8 col-lg-10 p-2 text-muted">
+								
+								<p><?php echo $value["contenido_opinion"]; ?></p>
 
-							<span class="small float-right">Carla Gómez | 20.09.2018</span>
+								<?php 
 
-						</div>	
+								$formatoFecha = strtotime($value["fecha_opinion"]);
+								$formatoFecha = date( 'd.m.Y', $formatoFecha);
 
-						<div class="col-9 col-sm-8 col-lg-10 p-2 text-muted">
-							
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto beatae, aut sint provident dolorem minus recusandae facere, ipsum magnam, nostrum enim. Error quasi quod ab consectetur explicabo consequuntur obcaecati suscipit!</p>
+								?>
 
-							<span class="small float-right">Juanito Travel | 20.09.2018</span>
+								<span class="small float-right"><?php echo $value["nombre_opinion"]; ?> | <?php echo $formatoFecha; ?></span>
 
-						</div>
+							</div>	
 
-						<div class="col-3 col-sm-4 col-lg-2 p-2">
-						
-							<img src= "<?php echo $blog["dominio"];?>vistas/img/user02.jpg" class="img-thumbnail">	
+							<?php if ($value["respuesta_opinion"] != null): ?>
 
-						</div>
+								<div class="col-9 col-sm-8 col-lg-10 p-2 text-muted">
+									
+									<p><?php echo $value["respuesta_opinion"]; ?></p>
+
+									<?php 
+
+									$formatoFechaR = strtotime($value["fecha_respuesta"]);
+									$formatoFechaR = date( 'd.m.Y', $formatoFechaR);
+
+									?>
+
+									<span class="small float-right"><?php echo $value["nombre_admin"]; ?> | <?php echo $formatoFechaR; ?></span>
+
+								</div>
+
+								<div class="col-3 col-sm-4 col-lg-2 p-2">
+								
+									<img src="<?php echo $blog["dominio"].$value["foto_admin"];?>" class="img-thumbnail">	
+
+								</div>
+															
+							<?php endif ?>
+
+						<?php endif ?>
+
+					<?php endforeach ?>
+
+					<?php else: ?>	
+
+					<p class="pl-3 text-secondary">¡Este artículo no tiene opiniones!</p>
+
+					<?php endif ?>
 
 					</div>
 
-					<hr style="border: 1px solid #79FF39">
+					<hr style="border: 1px solid #17CEE4">
 
 					<!-- FORMULARIO DE OPINIONES -->
 					
-					<form>
+					<form method="post" enctype="multipart/form-data">
+
+						<input type="hidden" name="id_art" value="<?php echo $articulo[0]["id_articulo"]; ?>">
 						
 						<label class="text-muted lead">¿Qué tal te pareció el artículo?</label>
 
@@ -235,116 +284,137 @@ CONTENIDO ARTÍCULO
 								
 								<div class="input-group-lg">
 									
-									<input type="text" class="form-control my-3" placeholder="Tu nombre">
+									<input type="text" class="form-control my-3" placeholder="Tu nombre" name="nombre_opinion" required>
 
-									<input type="email" class="form-control my-3" placeholder="Tu email">
+									<input type="email" class="form-control my-3" placeholder="Tu email" name="correo_opinion" required>
 
 								</div>
 
 							</div>
 
-							<div class="d-none d-md-block col-md-4 col-lg-3">
-								
-								<img src= "<?php echo $blog["dominio"];?>vistas/img/subirFoto.png" class="img-fluid mt-md-3 mt-xl-2">
+							<input type="file" name="fotoOpinion" class="d-none" id="fotoOpinion">
 
-							</div>
+							<label for="fotoOpinion" class="d-none d-md-block col-md-4 col-lg-3">
+								
+								<img src="<?php echo $blog["dominio"];?>vistas/img/subirFoto.png" class="img-fluid mt-md-3 mt-xl-2 prevFotoOpinion">
+
+							</label>
 
 						</div>	
 
-						<textarea class="form-control my-3" rows="7" placeholder="Escribe aquí tu mensaje"></textarea>
+						<textarea class="form-control my-3" rows="7" placeholder="Escribe aquí tu mensaje" name="contenido_opinion" required></textarea>
 						
 						<input type="submit" class="btn btn-dark btn-lg btn-block" value="Enviar">
 
+						<?php 
+
+							$enviarOpinion = ControladorBlog::ctrEnviarOpinion();
+							
+							if($enviarOpinion != ""){
+
+								echo '<script>
+
+									if ( window.history.replaceState ) {
+
+										window.history.replaceState( null, null, window.location.href );
+
+									}
+
+								</script>';
+
+								if($enviarOpinion == "ok"){
+
+									echo '<script>
+
+
+										notie.alert({
+											type: 1,
+											text: "La opinión ha sido enviada correctamente",
+											time: 5
+
+										})
+
+									</script>';
+
+								}
+
+								if($enviarOpinion == "error"){
+
+									echo '<script>
+
+
+										notie.alert({
+											type: 3,
+											text: "No se permiten caracteres especiales en el formulario",
+											time: 5
+
+										})
+
+									</script>';
+
+								}
+
+								if($enviarOpinion == "error-formato"){
+
+									echo '<script>
+
+
+										notie.alert({
+											type: 3,
+											text: "Error en el formato de la imagen, debe ser JPG o PNG",
+											time: 5
+
+										})
+
+									</script>';
+
+								}
+
+							}
+
+						?>
+
 					</form>
-
-
-
 				</div>
-
 			</div>
 
 			<!-- COLUMNA DERECHA -->
 
-			<div class="d-none d-md-block pt-md-4 pt-lg-0 col-md-4 col-lg-3">		
+			<div class="d-none d-md-block pt-md-4 pt-lg-0 col-md-4 col-lg-3">
 
-				<!-- ARTÍCULOS RECIENTES -->
+			<!-- ARTÍCULOS RECIENTES -->		
 
-				<div class="my-4">
+			<div class="my-4">
 					
 					<h4>Artículos Recientes</h4>
 
-					<div class="d-flex my-3">
+					<?php foreach (limitarForeach($totalArticulo, 3) as $key => $value): ?>
+
+						<div class="d-flex my-3">
 						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
+							<div class="w-200 w-xl-100 pr-3 pt-2">
+								
+								<a href="<?php echo $blog["dominio"].$articulo[0]["ruta_categoria"]."/".$value["ruta_articulo"]; ?>">
 
-								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo05.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+									<img src="<?php echo $blog["dominio"].$value["portada_articulo"];?>"  alt="<?php echo $value["titulo_articulo"]; ?>" class="img-fluid">
 
-							</a>
+								</a>
+
+							</div>
+
+							<div>
+
+								<a href="<?php echo $blog["dominio"].$articulo[0]["ruta_categoria"]."/".$value["ruta_articulo"] ?>" class="text-secondary">
+
+									<p class="small"><?php echo substr($value["descripcion_articulo"], 0, -250)."..."; ?></p>
+
+								</a>
+
+							</div>
 
 						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
-
-					<div class="d-flex my-3">
 						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
-
-								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo06.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-
-							</a>
-
-						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
-
-					<div class="d-flex my-3">
-						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
-
-								<img src= "<?php echo $blog["dominio"];?>vistas/img/articulo07.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-
-							</a>
-
-						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
-
+					<?php endforeach ?>
 
 				</div>
 				

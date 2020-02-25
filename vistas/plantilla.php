@@ -1,6 +1,6 @@
 <?php
 $blog = ControladorBlog::ctrMostrarBlog();
-$categorias = ControladorBlog::ctrMostrarCategorias();
+$categorias = ControladorBlog::ctrMostrarCategorias(null, null);
 $articulos = ControladorBlog::ctrMostrarConInnerJoin(0,3, null, null);
 $totalArticulo = ControladorBlog::ctrMostrarTotalArticulos(null, null);
 $totalPaginas = ceil(count($totalArticulo)/3);
@@ -175,6 +175,8 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 	<link rel="stylesheet" href="<?php echo $blog["dominio"];?>vistas/css/style.css">
 
+	<!-- Alertas Notie -->
+	<link rel="stylesheet" href="<?php echo $blog["dominio"];?>vistas/css/plugins/notie.min.css">	
 	
 	<!--=====================================
 	PLUGINS DE JS
@@ -248,6 +250,15 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 					$validarRuta = "categorias";
 					
 				break;
+				}else if($rutas[0] == "sobre-mi"){
+
+					$validarRuta = "sobre-mi";
+
+					break;
+
+				}else{
+
+					$validarRuta = "buscador";
 				}		
 			}
 		}
@@ -286,12 +297,18 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 
 				include "paginas/categorias.php";
 
+			}else if($validarRuta == "buscador"){
+
+				include "paginas/buscador.php";
+	
 			}else if($validarRuta == "articulos"){
 
 				include "paginas/articulos.php";
+
 			}else if(is_numeric($rutas[0]) && $rutas[0] <= $totalPaginas){
 
 				include "paginas/inicio.php";
+				
 			}elseif(isset($rutas[1]) && is_numeric($rutas[1])){
 
 				include "paginas/inicio.php";
