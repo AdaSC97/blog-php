@@ -262,6 +262,7 @@ $(".buscador").change(function(){
 	}
 
 })
+
 /*=============================================
 BUSCADOR CON ENTER
 =============================================*/
@@ -294,4 +295,3 @@ $(document).on("keyup", ".buscador", function(evento){
 	}
 
 })
-

@@ -179,10 +179,9 @@ class ControladorBlog{
 		$respuesta = ModeloBlog::mdlArticulosDestacados($tabla, $item, $valor);
 
 		return $respuesta;
-    }
-    
-   
-    /*=============================================
+	}
+	
+	/*=============================================
 	Buscador
 	=============================================*/
 
@@ -211,5 +210,19 @@ class ControladorBlog{
 		return $respuesta;
 
 	}
+	/*=============================================
+	Traer banner
+	=============================================*/
+
+	static public function ctrTraerBanner($valor){
+
+		$tabla = "banner";
+
+		$respuesta = ModeloBlog::mdlTraerBanner($tabla, $valor);
+
+		return $respuesta;
+
+	}
+  
 
 }

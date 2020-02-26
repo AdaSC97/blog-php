@@ -250,12 +250,6 @@ $totalPaginas = ceil(count($totalArticulo)/3);
 					$validarRuta = "categorias";
 					
 				break;
-				}else if($rutas[0] == "sobre-mi"){
-
-					$validarRuta = "sobre-mi";
-
-					break;
-
 				}else{
 
 					$validarRuta = "buscador";

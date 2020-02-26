@@ -1,11 +1,13 @@
 <?php 
 
 
+
+
 if(isset($rutas[0])){
 
-	$articulos = ControladorBlog::ctrBuscador(0, 5, $rutas[0]);
+	$articulos = ControladorBlog::ctrBuscador(0, 3, $rutas[0]);
 	$totalArticulos = ControladorBlog::ctrTotalBuscador($rutas[0]);
-	$totalPaginas = ceil(count($totalArticulos)/5);
+	$totalPaginas = ceil(count($totalArticulos)/3);
 	
 	$articulosDestacados = ControladorBlog::ctrArticulosDestacados(null, null);
 
@@ -20,8 +22,8 @@ if(isset($rutas[1]) && is_numeric($rutas[1])){
 
 	$paginaActual = $rutas[1];
 
-	$desde = ($rutas[1] - 1)*5;
-	$cantidad = 5;
+	$desde = ($rutas[1] - 1)*3;
+	$cantidad = 3;
 
 	$articulos = ControladorBlog::ctrBuscador($desde, $cantidad, $rutas[0]);
 
@@ -30,7 +32,6 @@ if(isset($rutas[1]) && is_numeric($rutas[1])){
 	$paginaActual = 1;
 }
 
-$anuncios = ControladorBlog::ctrTraerAnuncios("inicio");
 
 ?>
 
@@ -161,16 +162,6 @@ CONTENIDO INICIO
 
 
 				</div>
-
-				<!-- PUBLICIDAD -->
-
-				
-				<?php foreach ($anuncios as $key => $value): ?>
-
-					<?php echo $value["codigo_anuncio"]; ?>
-					
-				<?php endforeach ?>
-
 
 			</div>
 
