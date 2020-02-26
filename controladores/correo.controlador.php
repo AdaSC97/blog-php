@@ -33,7 +33,7 @@ class ControladorCorreo{
 
 				    //Recipients
 				    $mail->setFrom($_POST["emailContacto"], $_POST["nombreContacto"]);
-				    $mail->addAddress('juanitotravel@blogviajero.com', 'Juanito Travel');     // Add a recipient
+				    $mail->addAddress('ada.97.1405@gmail.com', 'Juanito Travel');     // Add a recipient
 				    // $mail->addAddress('ellen@example.com');               // Name is optional
 				    $mail->addReplyTo($_POST["emailContacto"], $_POST["nombreContacto"]);
 				    // $mail->addCC('cc@example.com');
